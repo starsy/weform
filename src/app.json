@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/finished",
+    "pages/ui/index",
+    "pages/table/table"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#515151",
+    "navigationBarTitleText": "TODO LIST",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#4bb214",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "images/edit-selected.png",
+        "iconPath": "images/edit.png",
+        "pagePath": "pages/index/index",
+        "text": "表单"
+      },
+      {
+        "selectedIconPath": "images/user-selected.png",
+        "iconPath": "images/user.png",
+        "pagePath": "pages/table/table",
+        "text": "我的"
+      }
+    ]
+  }
+}
