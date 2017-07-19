@@ -1,11 +1,12 @@
 <view class="todo-list has-toolbar">
+  <view class="group-header">最近访问</view>
   <view class="list">
-    <list key="list" name="todo"/>
+    <list key="recent" name="formItem"/>
   </view>
   <block wx:if="{{state.finished}}">
-    <view class="group-header">已完成</view>
+    <view class="group-header">我的表单</view>
     <view class="list">
-      <list key="finished" name="todo"/>
+      <list key="owner" name="formItem"/>
     </view>
     <view wx:if="{{state.finished>3}}" class="padding-h-xxlarge padding-top-large">
       <view class="btn btn-gray-hollow block" catchtap="handleShowFinished">查看全部已完成</view>

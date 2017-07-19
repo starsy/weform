@@ -13,8 +13,8 @@ setStore(store);
 export default class {
   async onLaunch() {
     try {
-      await sleep(100);
-      await request('api/start');
+      //await sleep(100);
+      //await request('api/start');
     } catch (error) {
       console.error(error);
     }
@@ -24,7 +24,7 @@ export default class {
   async timer() {
     while (true) {
       console.log('hello');
-      await sleep(10000);
+      //await sleep(10000);
     }
   }
 
