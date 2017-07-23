@@ -15,6 +15,7 @@ export default function* loginSaga() {
       ...data
     });
     */
+    yield wx.showLoading({title: "登录中"});
 
     yield login3rdSession();
 
@@ -28,13 +29,12 @@ export default function* loginSaga() {
     console.info("--------------");
     
     yield put(loginSuccess(userInfo.userInfo, thirdSession.data));
+    yield setTimeout(() => wx.hideLoading(), 1000);
   } catch (error) {
     console.log('login error', error);
     yield put(loginFailure(error));
   }
 }
-
-
 
 async function getStorageLocal(key) {
   console.info("Get %s from local", key);
@@ -71,22 +71,18 @@ async function check3rdSession() {
   if (!thirdSession) {
     await login3rdSession();
   } else {
-    let res = await wx.request({
-      url: 'http://localhost/check_3rd_session?s=' + thirdSession,
-      method: "GET"
-    });
-
+    let res = await request.get('check_3rd_session?s=' + thirdSession);
     console.log("status: ", res);
 
     if (res) {
-      if (!res.data.valid) {
+      if (!res.valid) {
         console.info("3rd session is NOT valid");
         await login3rdSession();
       } else {
 
         console.info("3rd session is valid");
       }
-      return res.data.valid;
+      return res.valid;
     }
   }
 };
@@ -95,19 +91,13 @@ async function get3rdSessionFromServer(userInfo, code) {
   console.info("Get 3rd session from server");
   console.log("userInfo: ", userInfo, "code: ", code);
 
-  let res = await wx.request({
-    method: "POST",
-    url: "http://localhost/login?code=" + code,
-    data: userInfo
-  });
-
+  let res = await request.post("login?code=" + code, userInfo);
   if (res) {
-    console.log("Success Login Server Response: ", res.data);
-    return res.data.third_session;
+    console.log("Success Login Server Response: ", res);
+    return res.third_session;
   } else {
     return null;
   }
-
 }
 
 async function login3rdSession() {
@@ -120,7 +110,7 @@ async function login3rdSession() {
       loginCode = res.code;
     }
   } catch (e) {
-    log.error("Error when login", e);
+    console.error("Error when login", e);
     return;
   }
 
@@ -128,7 +118,7 @@ async function login3rdSession() {
     try {
       res = await wx.getUserInfo();
     } catch (e) {
-      log.error("Error when getUserInfo", e);
+      console.error("Error when getUserInfo", e);
     }
     console.info("res: ", res);
     if (!res) {
@@ -139,7 +129,7 @@ async function login3rdSession() {
       const thirdSession = await get3rdSessionFromServer(res.userInfo, loginCode);
       await saveStorageLocal("thirdSession", thirdSession.data);
     } catch (e) {
-      log.error("Error when get 3rd session from server", e);
+      console.error("Error when get 3rd session from server", e);
     }
   }
 };

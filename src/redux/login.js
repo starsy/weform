@@ -1,4 +1,3 @@
-import wx, { Component, PropTypes } from 'labrador-immutable';
 import { createAction, handleActions } from 'redux-actions';
 import immutable from 'seamless-immutable';
 
@@ -33,7 +32,6 @@ export default handleActions({
   },
   LOGIN_SUCCESS: (state, action) => {
     console.log("in reducer[LOGIN_SUCCESS]");
-    setTimeout(() => wx.hideLoading(), 2000);
     return state.merge({
       fetching: false,
       error: null,

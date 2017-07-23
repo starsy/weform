@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/finished",
     "pages/ui/index",
     "pages/table/table"
   ],

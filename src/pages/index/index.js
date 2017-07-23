@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'labrador-redux';
 import FormItem from '../../components/formItem/formItem';
 import { sleep } from '../../utils/utils';
-import { getStore } from 'labrador-redux';
 import * as LoginActions from '../../redux/login';
+import * as FormActions from '../../redux/forms';
 
 const { object, string, array, func } = PropTypes;
 
@@ -17,7 +17,7 @@ class Index extends Component {
     createForm: func,
     removeForm: func,
     renameForm: func,
-    loginSuccess: func,
+    login: func,
   };
 
   state = {
@@ -60,6 +60,11 @@ class Index extends Component {
     this.setState(nextState);
   }
 
+  handleInput(e) {
+    console.info("Handle Input Event: ", e);
+    this.setState({ titleInput: e.detail.value });
+  }
+
   async onPullDownRefresh() {
     await sleep(1000);
     wx.showToast({ title: '刷新成功' });
@@ -72,7 +77,7 @@ class Index extends Component {
       wx.showToast({ title: '请输入任务' });
       return;
     }
-    this.props.createTodo({ title });
+    this.props.createForm({ title });
     this.setState({ titleInput: '' });
   }
   
@@ -86,11 +91,8 @@ class Index extends Component {
   
   async onLoad() {  
     console.info("onLoad");
-    
     this.props.login();
   }
-
-
 }
 
 const mapStateToProps = (state) => {
@@ -103,7 +105,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    login: LoginActions.login
+    login: LoginActions.login,
+    createForm: FormActions.create,
   }, dispatch);
 };
 

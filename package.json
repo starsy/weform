@@ -31,6 +31,7 @@
     "eslint-plugin-flowtype-errors": "^3.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2"
     "flow-bin": "^0.38.0",
     "labrador": "^0.6.12",
     "labrador-immutable": "^0.6.0",
@@ -42,6 +43,9 @@
     "redux-persist": "^4.3.0",
     "redux-saga": "^0.13.0",
     "regenerator-runtime": "^0.10.1",
-    "seamless-immutable": "^6.3.0"
-  }
+    "seamless-immutable": "^6.3.0",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {}
 }
