@@ -1,5 +1,5 @@
-<view class="list-item flex-row items-center todo {{state.className}}">
-  <icon class="todo-icon" type="{{state.icon}}" size="20" color="#999" catchtap="handleFinish"/>
-  <view class="block flex todo-title {{state.className}}-title"> {{props.title}} </view>
+<view class="list-item flex-row items-center form {{state.className}}">
+  <view class="block flex form-title {{state.className}}-title"> {{props.title}} </view>
   <view class="btn btn-small {{props.finished?'btn-gray-hollow':'btn-danger'}}" catchtap="handleRemove">删除</view>
+  <icon class="form-icon" type="search" size="20" color="#999" catchtap="handleShowForm"/>
 </view>

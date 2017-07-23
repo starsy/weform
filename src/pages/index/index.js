@@ -1,24 +1,28 @@
 import wx, { Component, PropTypes } from 'labrador-immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'labrador-redux';
-import Todo from '../../components/todo/todo';
-import * as todoActions from '../../redux/todos';
+import FormItem from '../../components/formItem/formItem';
 import { sleep } from '../../utils/utils';
+import { getStore } from 'labrador-redux';
+import * as LoginActions from '../../redux/login';
 
-const { array, func } = PropTypes;
+const { object, string, array, func } = PropTypes;
 
 class Index extends Component {
   static propTypes = {
+    userInfo: object,
+    thirdSession: string,
     recentForms: array,
     ownerForms: array,
     createForm: func,
     removeForm: func,
-    renameForm: func
+    renameForm: func,
+    loginSuccess: func,
   };
 
   state = {
     titleInput: '',
-    userInfo: {}
+    thirdSession: ''
   };
 
   children() {
@@ -33,33 +37,26 @@ class Index extends Component {
         key: form.id,
         props: {
           ...form,
-          onRemove: this.handleRemove,
-          onRestore: this.handleRestore,
-          onFinish: this.handleFinish
+          onEdit: this.handleEdit,
+          onRemove: this.handleRemove
         } 
       })),
-      owner: ownerForms.map((todo) => ({
+      owner: ownerForms.map((form) => ({
         component: Todo,
-        key: todo.id,
+        key: form.id,
         props: {
-          ...todo,
-          onRemove: this.handleRemove,
-          onRestore: this.handleRestore,
-          onFinish: this.handleFinish
+          ...form,
+          onEdit: this.handleEdit,
+          onRemove: this.handleRemove
         }
       }))
     };
   }
 
   onUpdate(props) {
-    let nextState = {
-      finished: 0
-    };
-    props.todos.forEach((todo) => {
-      if (todo.finished) {
-        nextState.finished += 1;
-      }
-    });
+    console.info("props: ", props);
+    let nextState = Object.assign({}, this.state, {thirdSession: props.thirdSession, userInfo: props.userInfo});
+    console.info("next state: ", nextState);
     this.setState(nextState);
   }
 
@@ -78,154 +75,41 @@ class Index extends Component {
     this.props.createTodo({ title });
     this.setState({ titleInput: '' });
   }
-
-  handleInput(e) {
-    this.setState({ titleInput: e.detail.value });
-  }
-
-  handleRemove = (id) => {
-    this.props.removeTodo(id);
+  
+  handleEdit = (id) => {
+    wx.navigateTo({ url: '/pages/ui/index' });
   };
-
-  handleFinish = (id) => {
-    this.props.finishTodo(id);
-  };
-
-  handleRestore = (id) => {
-    this.props.restoreTodo(id);
-  };
-
-  handleShowFinished() {
-    wx.navigateTo({ url: 'finished' });
-  }
 
   handleShowUI() {
     wx.navigateTo({ url: '/pages/ui/index' });
   }
   
   async onLoad() {  
-    console.info("onLoad");       
-               
-    wx.wx.checkSession({
-      success: await this.check3rdSession(),
-      fail: await this.login3rdSession(),
-    });
-
-    let that = this;
-    let userInfo = wx.app.getUserInfo((userInfo) => {
-        that.setData({
-          userInfo: userInfo
-        });
-      }
-    );
+    console.info("onLoad");
+    
+    this.props.login();
   }
-
-  async get3rdSession() {
-    console.info("Get 3rd session from local");
-    try {
-      return await wx.getStorage({key: '3rd_session'});
-    } catch (e) {
-      console.error("error when getting 3rd session from storage", e);
-    }
-  }
-
-  async check3rdSession() {
-    console.info("Check 3rd session");
-    let value = await this.get3rdSession();
-    console.info("3rd_session", value);
-    
-    if (value.data) {
-      value = value.data;
-    } else {
-      value = null;
-    }
-    
-    if (!value) {
-      await this.login3rdSession();
-    } else {
-      let res = await wx.request({
-        url: 'http://localhost/check_3rd_session?s=' + value,
-        method: "GET"
-      });
-
-      console.log("status: ", res);
-
-      if (res) {
-        if (!res.data.valid) {
-          console.info("3rd session is NOT valid");
-          await this.login3rdSession();
-        } else {
-          console.info("3rd session is valid");
-        }
-        return res.data.valid;
-      }
-    }
-  };
-
-  async get3rdSessionFromServer(userInfo, code) {
-    console.info("Get 3rd session from server");
-    console.log("userInfo: ", userInfo, "code: ", code);
-    
-    let res = await wx.request({
-      method: "POST",
-      url: "http://localhost/login?code=" + code,
-      data: userInfo
-    });
-    
-    if (res) {
-      console.log("Success Login Server Response: ", res.data);
-      try {
-        await wx.setStorage({key: '3rd_session', data: res.data.third_session});
-      } catch (e) {
-        console.error("Error when writing 3rd_session into storage", e);
-      }
-    }
-  }
-
-  async login3rdSession() {
-    console.info("Login 3rd session");
-
-    let res = null, login_code = null;
-    try {
-      res = await wx.login();
-      if (res) {
-        login_code = res.code;
-      }
-    } catch (e) {
-      log.error("Error when login", e);
-      return;
-    }
-    
-    if (login_code) {
-      try {
-        res = await wx.getUserInfo();
-      } catch (e) {
-        log.error("Error when getUserInfo", e);
-      }
-      console.info("res: ", res);
-      if (!res) {
-        return;  
-      }
-
-      try {
-        await this.get3rdSessionFromServer(res.userInfo, login_code);
-      } catch (e) {
-        log.error("Error when get 3rd session from server", e);
-      }
-    }
-  };
 
 
 }
 
+const mapStateToProps = (state) => {
+  console.info("in map state to props: ", state);
+  return {
+    thirdSession: state.login.thirdSession,
+    userInfo: state.login.userInfo,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    login: LoginActions.login
+  }, dispatch);
+};
+
 export default connect(
-  ({ todos }) => ({ todos }),
-  (dispatch) => bindActionCreators({
-    createTodo: todoActions.create,
-    removeTodo: todoActions.remove,
-    finishTodo: todoActions.finish,
-    restoreTodo: todoActions.restore,
-  }, dispatch)
+  mapStateToProps,
+  mapDispatchToProps
 )(Index);
 
 

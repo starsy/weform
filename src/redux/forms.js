@@ -14,10 +14,10 @@ export const RESTORE = 'RESTORE';
 export const INITIAL_STATE = immutable([]);
 
 export const refresh = createAction(REFRESH);
-export const load = createAction(LOAD, (todos) => (todos));
+export const load = createAction(LOAD, (forms) => (forms));
 export const finish = createAction(FINISH, (id) => ({ id }));
-export const create = createAction(CREATE, (todo) => (todo));
-export const update = createAction(UPDATE, (todo) => (todo));
+export const create = createAction(CREATE, (form) => (form));
+export const update = createAction(UPDATE, (form) => (form));
 export const remove = createAction(REMOVE, (id) => ({ id }));
 export const restore = createAction(RESTORE, (id) => ({ id }));
 
@@ -26,18 +26,18 @@ export default handleActions({
   [LOAD]: (state, { payload }) =>
     immutable(payload),
   [REMOVE]: (state, { payload }) =>
-    state.filter((todo) => todo.id !== payload.id),
+    state.filter((form) => form.id !== payload.id),
   [CREATE]: (state, { payload }) =>
     INITIAL_STATE.concat(state, Object.assign({}, payload, { id: generateId() })),
   [FINISH]: (state, { payload }) =>
-    state.map((todo) => (todo.id === payload.id ? todo.merge({
+    state.map((form) => (form.id === payload.id ? form.merge({
       finished: true,
       finishedAt: (new Date()).toString()
-    }) : todo)),
+    }) : form)),
   [RESTORE]: (state, { payload }) =>
-    state.map((todo) => (todo.id === payload.id ? todo.merge({
+    state.map((form) => (form.id === payload.id ? form.merge({
       finished: false
-    }) : todo)),
+    }) : form)),
   [UPDATE]: (state, { payload }) =>
-    state.map((todo) => (todo.id === payload.id ? todo.merge(payload) : todo)),
+    state.map((form) => (form.id === payload.id ? form.merge(payload) : form)),
 }, INITIAL_STATE);

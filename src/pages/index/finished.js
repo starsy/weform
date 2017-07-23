@@ -2,7 +2,7 @@ import { Component, PropTypes } from 'labrador-immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'labrador-redux';
 import Todo from '../../components/todo/todo';
-import * as todoActions from '../../redux/todos';
+import * as todoActions from '../../redux/forms';
 
 const { array, func } = PropTypes;
 

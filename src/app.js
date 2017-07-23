@@ -12,22 +12,9 @@ setStore(store);
 
 export default class {
   async onLaunch() {
-    try {
-      //await sleep(100);
-      //await request('api/start');
-    } catch (error) {
-      console.error(error);
-    }
-    // this.timer();
-  }
 
-  async timer() {
-    while (true) {
-      console.log('hello');
-      //await sleep(10000);
-    }
   }
-
+  
   async getUserInfo() {
     if (this.globalData.userInfo) {
       return this.globalData.userInfo;

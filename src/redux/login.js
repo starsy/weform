@@ -1,3 +1,4 @@
+import wx, { Component, PropTypes } from 'labrador-immutable';
 import { createAction, handleActions } from 'redux-actions';
 import immutable from 'seamless-immutable';
 
@@ -13,7 +14,7 @@ export const login = createAction(LOGIN);
 export const logout = createAction(LOGOUT);
 
 // 登录成功
-export const loginSuccess = createAction(LOGIN_SUCCESS, (userId) => ({ userId }));
+export const loginSuccess = createAction(LOGIN_SUCCESS, (userInfo, thirdSession) => ({ userInfo, thirdSession }));
 
 // 登录失败
 export const loginFailure = createAction(LOGIN_FAILURE, (error) => ({ error }));
@@ -21,14 +22,23 @@ export const loginFailure = createAction(LOGIN_FAILURE, (error) => ({ error }));
 
 // 初始state
 export const INITIAL_STATE = immutable({
-  userId: null,
+  thirdSession: '',
   error: null,
   fetching: false
 });
 
 export default handleActions({
-  LOGIN: (state) => state.merge({ fetching: true }),
-  LOGOUT: () => INITIAL_STATE,
-  LOGIN_SUCCESS: (state, action) => state.merge({ fetching: false, error: null, userId: action.payload.userId }),
-  LOGIN_FAILURE: (state, action) => state.merge({ fetching: false, error: action.payload.error })
+  LOGIN: (state) => {
+    return state.merge({fetching: true});
+  },
+  LOGIN_SUCCESS: (state, action) => {
+    console.log("in reducer[LOGIN_SUCCESS]");
+    setTimeout(() => wx.hideLoading(), 2000);
+    return state.merge({
+      fetching: false,
+      error: null,
+      userInfo: action.payload.userInfo,
+      thirdSession: action.payload.thirdSession
+    });},
+  LOGIN_FAILURE: (state, action) => state.merge({fetching: false, error: action.payload.error})
 }, INITIAL_STATE);

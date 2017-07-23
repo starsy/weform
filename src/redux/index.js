@@ -4,13 +4,11 @@ import rootSaga from '../sagas/';
 
 import loginReducer from './login';
 import userReducer from './user';
-import todosReducer from './todos';
+import todosReducer from './forms';
 
 function createStore() {
   const rootReducer = combineReducers({
     login: loginReducer,
-    user: userReducer,
-    todos: todosReducer
   });
 
   return configureStore(rootReducer, rootSaga);
