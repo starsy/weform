@@ -31,7 +31,7 @@ export default function* loginSaga() {
     log.info("--------------");
     
     yield put(loginSuccess(userInfo.userInfo, thirdSession.data));
-    yield setTimeout(() => wx.hideLoading(), 1000);
+    yield wx.hideLoading();
   } catch (error) {
     log.info('login error', error);
     yield put(loginFailure(error));

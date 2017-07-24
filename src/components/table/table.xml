@@ -1,0 +1,4 @@
+<scroll-view class="table">
+    <component key="tableHeader" name="table-row"/>
+    <component key="tableRows" name="table-rows"/>
+</scroll-view>

@@ -1,0 +1,4 @@
+<view class="form-form">
+    <text class="msg">{{props.table.metadata.title}}</text>
+    <component key="table" name="table"/>
+</view>

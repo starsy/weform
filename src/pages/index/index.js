@@ -84,8 +84,10 @@ class Index extends Component {
     this.setState({ titleInput: '' });
   }
   
-  handleEdit = (id) => {
-    wx.navigateTo({ url: '/pages/ui/index' });
+  handleEdit = (event) => {
+    let id = event.currentTarget.dataset.id;
+    log.info("Handle Edit: " + id);
+    wx.navigateTo({ url: '/pages/form/form?id=' + id});
   };
 
   handleShowUI() {

@@ -26,7 +26,7 @@
             <input class="form-control" type="text" placeholder="输入新的表单名称" value="{{state.titleInput}}"
                    bindinput="handleInput"/>
         </view>
-        <icon type="success" catchtap="handleCreate">新建</icon>
+        <icon type="success" data-id="test123" catchtap="handleEdit">新建</icon>
     </view>
     <view class="footer">
         <view class="msg-desc">{{state.thirdSession}}</view>

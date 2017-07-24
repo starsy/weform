@@ -1,0 +1,3 @@
+<view class="table-rows">
+    <list key="rows" name="table-row"/>
+</view>
