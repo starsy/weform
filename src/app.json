@@ -2,12 +2,13 @@
   "pages": [
     "pages/index/index",
     "pages/ui/index",
-    "pages/table/table"
+    "pages/table/table",
+    "pages/form/form"
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#515151",
-    "navigationBarTitleText": "TODO LIST",
+    "navigationBarTitleText": "WeForm",
     "navigationBarTextStyle": "white",
     "enablePullDownRefresh": true
   },

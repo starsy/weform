@@ -5,6 +5,9 @@ import FormItem from '../../components/formItem/formItem';
 import { sleep } from '../../utils/utils';
 import * as LoginActions from '../../redux/login';
 import * as FormActions from '../../redux/forms';
+import loglevel from 'loglevel';
+
+let log = loglevel.getLogger('index');
 
 const { object, string, array, func } = PropTypes;
 
@@ -54,14 +57,14 @@ class Index extends Component {
   }
 
   onUpdate(props) {
-    console.info("props: ", props);
+    log.info("props: ", props);
     let nextState = Object.assign({}, this.state, {thirdSession: props.thirdSession, userInfo: props.userInfo});
-    console.info("next state: ", nextState);
+    log.info("next state: ", nextState);
     this.setState(nextState);
   }
 
   handleInput(e) {
-    console.info("Handle Input Event: ", e);
+    log.info("Handle Input Event: ", e);
     this.setState({ titleInput: e.detail.value });
   }
 
@@ -90,13 +93,13 @@ class Index extends Component {
   }
   
   async onLoad() {  
-    console.info("onLoad");
+    log.info("onLoad");
     this.props.login();
   }
 }
 
 const mapStateToProps = (state) => {
-  console.info("in map state to props: ", state);
+  log.info("in map state to props: ", state);
   return {
     thirdSession: state.login.thirdSession,
     userInfo: state.login.userInfo,

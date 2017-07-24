@@ -4,6 +4,38 @@ import createLogger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import reduxPersist from '../config/redux-persist';
 import * as StartupActions from './startup';
+import loglevel from 'loglevel';
+import prefix from 'loglevel-plugin-prefix';
+
+(function() {
+  function pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
+  }
+
+  Date.prototype.toISOTimeString = function () {
+    return pad(this.getUTCHours()) +
+      ':' + pad(this.getUTCMinutes()) +
+      ':' + pad(this.getUTCSeconds()) +
+      '.' + (this.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5);
+  };
+}());
+
+loglevel.enableAll();
+prefix.apply(loglevel, {
+  template: '%t %l [%n]:',
+  timestampFormatter: function (date) {
+    return date.toISOTimeString()
+  },
+  levelFormatter: function (level) {
+    return level.toUpperCase();
+  },
+  nameFormatter: function (name) {
+    return name || 'root';
+  }
+});
 
 /**
  * 创建store
@@ -23,7 +55,8 @@ export default function (rootReducer, rootSaga) {
   const SAGA_LOGGING_BLACKLIST = ['EFFECT_TRIGGERED', 'EFFECT_RESOLVED', 'EFFECT_REJECTED'];
   if (__DEV__) {
     const logger = createLogger({
-      predicate: (getState, { type }) => SAGA_LOGGING_BLACKLIST.indexOf(type) === -1
+      predicate: (getState, { type }) => SAGA_LOGGING_BLACKLIST.indexOf(type) === -1,
+      timestamp: true
     });
     middleware.push(logger);
   }
