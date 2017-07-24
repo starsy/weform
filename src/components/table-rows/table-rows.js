@@ -25,12 +25,15 @@ class TableRows extends Component {
 
   children() {
     return {
-      rows: {
-        component: TableRow,
-        props: {
-          rows: this.props.rows
+      rows: this.props.rows.map((row) => {
+        return {
+          component: TableRow,
+          props: {
+            isHeader: false,
+            row: row
+          }
         }
-      }
+      })
     };
   }
 
