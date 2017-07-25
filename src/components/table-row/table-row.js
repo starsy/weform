@@ -4,11 +4,11 @@ import { connect } from 'labrador-redux';
 import loglevel from 'loglevel';
 
 let log = loglevel.getLogger('table-row');
-const { boolean, object } = PropTypes;
+const { bool, object } = PropTypes;
 
 class TableRow extends Component {
   static propTypes = {
-    isHeader: boolean,
+    isHeader: bool,
     row: object
   };
 

@@ -28,7 +28,14 @@
         "iconPath": "images/user.png",
         "pagePath": "pages/table/table",
         "text": "我的"
+      },
+      {
+        "selectedIconPath": "images/user-selected.png",
+        "iconPath": "images/user.png",
+        "pagePath": "pages/table/table",
+        "text": "Table"
       }
+      
     ]
   }
 }

@@ -24,16 +24,17 @@ class TableRows extends Component {
   }
 
   children() {
+    let i = 0;
     return {
-      rows: this.props.rows.map((row) => {
-        return {
-          component: TableRow,
-          props: {
-            isHeader: false,
-            row: row
-          }
+      rows: this.props.rows.map((row) => ({
+        component: TableRow,
+        key: i++,
+        props: {
+          isHeader: false,
+          isDark: (i % 2 !== 0),
+          row: row,
         }
-      })
+      }))
     };
   }
 
