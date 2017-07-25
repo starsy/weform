@@ -1,6 +1,5 @@
 import { Component, PropTypes } from 'labrador-immutable';
 import immutable from 'seamless-immutable';
-import { connect } from 'labrador-redux';
 import loglevel from 'loglevel';
 
 let log = loglevel.getLogger('table-row');

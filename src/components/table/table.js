@@ -1,7 +1,5 @@
 import { Component, PropTypes } from 'labrador-immutable';
 import immutable from 'seamless-immutable';
-import { bindActionCreators } from 'redux';
-import { connect } from 'labrador-redux';
 import TableRow from '../table-row/table-row';
 import TableRows from '../table-rows/table-rows';
 import loglevel from 'loglevel';
@@ -26,16 +24,12 @@ class Table extends Component {
   }
 
   children() {
-    let row = { cols: [] };
-    this.props.table.metadata.fields.map((f) => {
-      row.cols.push({v: f.name});
-    });
     return {
       tableHeader: {
         component: TableRow,
         props: {
           isHeader: true,
-          row: row
+          row: {cols: this.props.table.metadata.fields.map((f) => ({v: f.name}))}
         }
       },
       tableRows: {
@@ -67,6 +61,7 @@ class Table extends Component {
 
 }
 
+/*
 const mapStateToProps = (state) => {
   log.info("in map state to props: ", state);
   return {
@@ -82,3 +77,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Table);
+*/
+
+export default Table;

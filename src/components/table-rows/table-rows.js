@@ -1,6 +1,5 @@
 import { Component, PropTypes } from 'labrador-immutable';
 import immutable from 'seamless-immutable';
-//import { connect } from 'labrador-redux';
 import TableRow from '../table-row/table-row';
 import loglevel from 'loglevel';
 
