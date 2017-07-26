@@ -129,7 +129,7 @@ async function login3rdSession() {
 
     try {
       const thirdSession = await get3rdSessionFromServer(res.userInfo, loginCode);
-      await saveStorageLocal("thirdSession", thirdSession.data);
+      await saveStorageLocal("thirdSession", thirdSession);
     } catch (e) {
       log.error("Error when get 3rd session from server", e);
     }

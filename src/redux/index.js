@@ -3,12 +3,13 @@ import configureStore from './createStore';
 import rootSaga from '../sagas/';
 
 import loginReducer from './login';
-//import userReducer from './user';
+import formReducer from './form';
 //import todosReducer from './forms';
 
 function createStore() {
   const rootReducer = combineReducers({
     login: loginReducer,
+    form: formReducer,
   });
 
   return configureStore(rootReducer, rootSaga);

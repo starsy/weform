@@ -2,16 +2,20 @@ import {Component, PropTypes} from 'labrador-immutable';
 import immutable from 'seamless-immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'labrador-redux';
+import * as FormActions from '../../redux/form';
 import Table from '../../components/table/table';
+
 import loglevel from 'loglevel';
 
 let log = loglevel.getLogger('form');
 
-const {object} = PropTypes;
+const {object, func} = PropTypes;
 
 class Form extends Component {
   static propTypes = {
-    table: object
+    login: object,
+    table: object,
+    get: func
   };
 
   static defaultProps = {
@@ -77,7 +81,15 @@ class Form extends Component {
   }
 
   onLoad(option) {
-    let query = option.query;
+    let id = option.id;
+    log.info("option:", option);
+    log.info("id:", id);
+    
+    if (!id) {
+      return;
+    }
+
+    this.props.get({id, login: this.props.login});
   }
 
   // onReady() {
@@ -97,10 +109,22 @@ class Form extends Component {
 
 }
 
-export default Form;
+const mapStateToProps = (state) => {
+  log.info("in map state to props: ", state);
+  return {
+    login: state.login,
+    table: state.form.table,
+  };
+};
 
-/*
+const mapDispatchToProps = (dispatch) => {
+  log.info("in map dispatch to props: ");
+  return bindActionCreators({
+    get: FormActions.get,
+  }, dispatch);
+};
+
 export default connect(
-  (state)=>({})
+  mapStateToProps,
+  mapDispatchToProps
 )(Form);
-*/

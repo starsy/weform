@@ -24,6 +24,10 @@ class Table extends Component {
   }
 
   children() {
+    if (!this.props.table) {
+      return {};
+    }
+    
     return {
       tableHeader: {
         component: TableRow,
