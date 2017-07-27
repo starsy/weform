@@ -15,7 +15,7 @@ class Form extends Component {
   static propTypes = {
     login: object,
     table: object,
-    load: func
+    loadForm: func
   };
 
   static defaultProps = {
@@ -89,7 +89,7 @@ class Form extends Component {
       return;
     }
 
-    this.props.load({id, session: this.props.login.thirdSession});
+    this.props.loadForm({id, session: this.props.login.thirdSession});
   }
 
   onUpdate(props) {
@@ -121,7 +121,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   log.info("in map dispatch to props: ");
   return bindActionCreators({
-    load: FormActions.load,
+    loadForm: FormActions.load,
   }, dispatch);
 };
 
