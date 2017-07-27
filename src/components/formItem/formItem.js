@@ -1,4 +1,9 @@
 import { Component, PropTypes } from 'labrador-immutable';
+import { bindActionCreators } from 'redux';
+import { connect } from 'labrador-redux';
+import loglevel from 'loglevel';
+
+let log = loglevel.getLogger('form');
 
 const { string, func } = PropTypes;
 
@@ -24,5 +29,23 @@ class FormItem extends Component {
   
 }
 
-export default FormItem;
+const mapStateToProps = (state) => {
+  log.info("in map state to props: ", state);
+  return {
+    login: state.login,
+    table: state.form.table,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  log.info("in map dispatch to props: ");
+  return bindActionCreators({
+    get: FormActions.get,
+  }, dispatch);
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormItem);
 

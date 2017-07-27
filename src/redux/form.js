@@ -9,15 +9,17 @@ let log = loglevel.getLogger('form-redux');
  * Action Types
  */
 export const CREATE = 'CREATE';
-export const GET = 'GET';
-export const FAIL = 'FAIL';
+export const LOAD = 'LOAD';
+export const LOAD_SUCCESS = 'LOAD_SUCCESS';
+export const LOAD_FAIL = 'LOAD_FAIL';
 
 /**
  * Action Creators
  */
 export const create = createAction(CREATE);
-export const get = createAction(GET, async ({id, login}) => (await getTable(id, login.thirdSession)));
-export const fail = createAction(FAIL, (error) => ({ error }));
+export const load = createAction(LOAD, ({id, session}) => ({id, session}));
+export const loadSuccess = createAction(LOAD_SUCCESS, ({table}) => ({table}));
+export const loadFail = createAction(LOAD_FAIL, (error) => ({ error }));
 
 /**
  * Initial State
@@ -25,31 +27,24 @@ export const fail = createAction(FAIL, (error) => ({ error }));
 export const INITIAL_STATE = immutable({
   error: null,
   table: null,
+  loading: false,
 });
 
 /**
  * Reducers
  */
 export default handleActions({
-  GET: (state, {payload}) => {
-    log.info("in handleAction [GET]", payload);
-    return state.merge({table: payload})},
-  CREATE: (state, { payload }) =>
-    state.merge({ fetching: false, error: null, ...payload }),
-  FAIL: (state, { payload }) =>
-    state.merge({ fetching: false, error: payload.error })
+  LOAD: (state, {payload}) => {
+    log.info("in handleAction [LOAD]", payload);
+    return state.merge({loading: true})
+  },
+  LOAD_SUCCESS: (state, {payload}) => {
+    log.info("in handleAction [LOAD_SUCCESS]", payload);
+    return state.merge({table: payload.table, loading: false})
+  },
+  CREATE: (state, {payload}) =>
+    state.merge({fetching: false, error: null, ...payload}),
+  FAIL: (state, {payload}) =>
+    state.merge({fetching: false, error: payload.error})
 }, INITIAL_STATE);
 
-
-async function getTable(id, s) {
-  let res = null;
-  try {
-    log.info("get table:" + id);
-    res = await request.get('form/' + id, {}, {s: s});
-  } catch (e) {
-    log.error("Error when getting form: ", e);
-    return null;
-  }
-  log.info("table response:", res);
-  return res;
-}
