@@ -1,3 +1,4 @@
+import wx from 'labrador';
 import { put } from 'redux-saga/effects';
 import request from 'al-request';
 import * as formActions from '../redux/form';
@@ -5,16 +6,22 @@ import loglevel from 'loglevel';
 
 const log = loglevel.getLogger('formSaga');
 
-export default function* formSaga(payload) {
+export default function* formSaga(action) {
   try {
+    log.info("action", action);
+
+    yield wx.showLoading({title: "登录中"});
+
     // 在这里写异步操作代码
-    let table = yield getTable(payload.id, payload.session);
+    let table = yield getTable(action.payload.id, action.payload.session);
 
     // 将异步操作结果更新至Redux
     yield put(formActions.loadSuccess(table));
   } catch (error) {
     log.error("Error when loading table", error);
     yield put(formActions.loadFail(error));
+  } finally {
+    wx.hideLoading();
   }
 }
 

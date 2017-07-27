@@ -18,7 +18,7 @@ export const LOAD_FAIL = 'LOAD_FAIL';
  */
 export const create = createAction(CREATE);
 export const load = createAction(LOAD, ({id, session}) => ({id, session}));
-export const loadSuccess = createAction(LOAD_SUCCESS, ({table}) => ({table}));
+export const loadSuccess = createAction(LOAD_SUCCESS, (table) => ({table}));
 export const loadFail = createAction(LOAD_FAIL, (error) => ({ error }));
 
 /**
