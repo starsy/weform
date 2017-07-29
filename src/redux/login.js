@@ -18,7 +18,6 @@ export const loginSuccess = createAction(LOGIN_SUCCESS, (userInfo, thirdSession)
 // 登录失败
 export const loginFailure = createAction(LOGIN_FAILURE, (error) => ({ error }));
 
-
 // 初始state
 export const INITIAL_STATE = immutable({
   thirdSession: '',

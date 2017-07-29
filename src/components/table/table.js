@@ -24,7 +24,11 @@ class Table extends Component {
   }
 
   children() {
-    if (!this.props.table) {
+    if (!this.props.table || !this.props.table.metadata || !this.props.table.metadata.fields) {
+      return {};
+    }
+    
+    if (!this.props.table.data || !this.props.table.data.rows) {
       return {};
     }
     
