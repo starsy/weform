@@ -13,7 +13,8 @@ class TableRow extends Component {
 
   static defaultProps = {
     isHeader: false,
-    row: null
+    row: null,
+    editing: false,
   };
 
   constructor(props) {
