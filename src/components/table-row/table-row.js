@@ -26,22 +26,7 @@ class TableRow extends Component {
   children() {
     return {};
   }
-
-  // onLoad() {
-  // }
-
-  // onReady() {
-  // }
-
-  // onShow() {
-  // }
-
-  // onHide() {
-  // }
-
-  // onUnload() {
-  // }
-
+  
   handleLongTap(event) {
     log.info("handleLongTap", event);
     this.setState({...this.state, editing: true});
