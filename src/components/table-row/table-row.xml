@@ -3,9 +3,13 @@
         <view class="th">{{item.v}}</view>
     </block>
 </view>
-<view class="table-row tr {{props.isDark ? 'bg-g' : ''}}" wx:else>
+<view class="table-row tr {{props.isDark ? 'bg-g' : ''}}" catchlongtap="handleLongTap" wx:else>
     <block wx:for="{{props.row.cols}}" wx:key="_id">
-        <view class="td">{{item.v}}</view>
+        <view class="td" wx:if="{{state.editing}}">
+            <input value="{{item.v}}" confirm-type="done"/>
+        </view>
+        <view class="td" wx:else>
+            {{item.v}}
+        </view>
     </block>
 </view>
-

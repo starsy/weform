@@ -33,9 +33,6 @@ class TableRow extends Component {
   // onReady() {
   // }
 
-  // onUpdate() {
-  // }
-
   // onShow() {
   // }
 
@@ -45,10 +42,15 @@ class TableRow extends Component {
   // onUnload() {
   // }
 
+  handleLongTap(event) {
+    log.info("handleLongTap", event);
+    this.setState({...this.state, editing: true});
+  }
+
+  onUpdate(props) {
+    log.info("onUpdate", props);
+    log.info("onUpdate state", this.state);
+  }
 }
 
 export default TableRow;
-
-// export default connect(
-//   (state)=>({})
-// )(TableRow);
