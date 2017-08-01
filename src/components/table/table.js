@@ -43,48 +43,10 @@ class Table extends Component {
       tableRows: {
         component: TableRows,
         props: {
-          rows: this.props.table.data.rows
+          rows: this.props.table.data.rows.filter((row) => (row && row.cols && row.cols.length > 0))
         }
       }
     };
   }
-
-  // onLoad() {
-  // }
-
-  // onReady() {
-  // }
-
-  // onUpdate() {
-  // }
-
-  // onShow() {
-  // }
-
-  // onHide() {
-  // }
-
-  // onUnload() {
-  // }
-
 }
-
-/*
-const mapStateToProps = (state) => {
-  log.info("in map state to props: ", state);
-  return {
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-  }, dispatch);
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Table);
-*/
-
 export default Table;

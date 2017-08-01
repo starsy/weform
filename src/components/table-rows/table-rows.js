@@ -37,28 +37,6 @@ class TableRows extends Component {
     };
   }
 
-  // onLoad() {
-  // }
-
-  // onReady() {
-  // }
-
-  // onUpdate() {
-  // }
-
-  // onShow() {
-  // }
-
-  // onHide() {
-  // }
-
-  // onUnload() {
-  // }
-
 }
 
 export default TableRows;
-
-// export default connect(
-//   (state)=>({})
-// )(TableRows);
