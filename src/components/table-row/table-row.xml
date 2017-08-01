@@ -1,14 +1,22 @@
 <view class="table-row tr bg-w" wx:if="{{props.isHeader}}">
-    <view class="th"><icon type="warn" color="grey"></icon> </view>
-    <block wx:for="{{props.row.cols}}" wx:key="_id">
+    <view class="th">
+        <icon type="warn" color="grey"/>
+    </view>
+    <block wx:for="{{state.cols}}" wx:key="_id">
         <view class="th">{{item.v}}</view>
     </block>
 </view>
 <view class="table-row tr {{props.isDark ? 'bg-g' : ''}}" catchlongtap="handleLongTap" wx:else>
-    <view class="td"><icon type="warn" color="grey"></icon></view>
-    <block wx:for="{{props.row.cols}}" wx:key="_id">
+    <view class="td" wx:if="{{state.editing}}">
+        <icon type="{{state.actionButtonType}}" color="{{state.actionButtonColor}}" 
+              catchtap="handleEditDone" catchlongtap="handleEditCancel"/>
+    </view>
+    <view class="td" wx:else>
+        <icon type="warn" color="grey"/>
+    </view>
+    <block wx:for="{{state.cols}}" wx:key="_id" wx:for-index="i">
         <view class="td" wx:if="{{state.editing}}">
-            <input value="{{item.v}}" confirm-type="done"/>
+            <input value="{{item.v}}" data-index="{{i}}" data-id="{{item._id}}" confirm-type="done" bindinput="handleInput"/>
         </view>
         <view class="td" wx:else>
             {{item.v}}
