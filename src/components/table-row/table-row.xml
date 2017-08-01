@@ -1,4 +1,4 @@
-<view class="table-row tr bg-w" wx:if="{{props.isHeader}}">
+<view class="table-row tr bg-w" wx:if="{{props.header}}">
     <view class="th">
         <text class="fa fa-flag"/>
     </view>
@@ -6,13 +6,13 @@
         <view class="th">{{item.v}}</view>
     </block>
 </view>
-<view class="table-row tr {{props.isDark ? 'bg-g' : ''}}" catchlongtap="handleLongTap" wx:else>
+<view class="table-row tr {{props.odd ? 'bg-g' : 'bg-w'}}" catchlongtap="handleEdit" wx:else>
     <view class="td" wx:if="{{state.editing}}">
         <text class="fa fa-lg fa-{{state.actionButtonType}} {{state.actionButtonColor}}"  
               catchtap="handleEditDone" catchlongtap="handleEditCancel"/>
     </view>
     <view class="td" wx:else>
-        <text class="fa fa-lg fa-pencil grey" catchtap="handleLongTap" />
+        <text class="fa fa-lg fa-pencil grey" catchtap="handleEdit" />
     </view>
     <block wx:for="{{state.cols}}" wx:key="_id" wx:for-index="i">
         <view class="td" wx:if="{{state.editing}}">

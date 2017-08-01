@@ -29,12 +29,17 @@ class TableRows extends Component {
         component: TableRow,
         key: i++,
         props: {
-          isHeader: false,
-          isDark: (i % 2 !== 0),
+          header: false,
+          odd: (i % 2 !== 0),
+          empty: false,
           row: row,
         }
       }))
     };
+  }
+  
+  handleAddRow(event) {
+    log.info("handleAddRow", event);
   }
 
 }

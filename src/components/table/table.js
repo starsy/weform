@@ -36,7 +36,7 @@ class Table extends Component {
       tableHeader: {
         component: TableRow,
         props: {
-          isHeader: true,
+          header: true,
           row: {cols: this.props.table.metadata.fields.map((f) => ({v: f.name}))}
         }
       },

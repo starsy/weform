@@ -7,14 +7,18 @@ const { string, bool, object, func } = PropTypes;
 
 class TableRow extends Component {
   static propTypes = {
-    isHeader: bool,
+    header: bool,
+    odd: bool,
+    empty: bool,
     row: object,
     editing: bool,
     cancelling: bool,
   };
 
   static defaultProps = {
-    isHeader: false,
+    header: false,
+    odd: false,
+    empty: true,
     row: null,
     editing: false,
     cancelling: false,
@@ -27,31 +31,41 @@ class TableRow extends Component {
     log.info("constructor state:", this.state);
   }
 
-  children() {
-    return {};
-  }
-  
   doNothing(event) {}
   
-  handleLongTap(event) {
+  handleEdit(event) {
     log.info("handleLongTap", event);
-    this.setState({...this.state, editing: true, actionButtonColor: "green", actionButtonType: "check-circle"});
+    this.setState(this.state.merge({
+      editing: true, 
+      actionButtonColor: "green", 
+      actionButtonType: "check-circle"
+    }));
   }
 
   handleEditDone(event) {
     log.info("handleEditDone", event);
-    
     if (this.state.cancelling) {
       return;
     }
+    this.setState(this.state.merge({editing: false}));
+    this.props = this.props.setIn(['row', 'cols'], this.state.cols);
+    log.info("handleEditDone: (props)", this.props);
     
-    this.setState({...this.state, editing: false});
+    wx.showToast({
+      title: '保存成功',
+      icon: 'success',
+      duration: 1000
+    });
   }
 
   async handleEditCancel(event) {
     log.info("handleEditCancel", event);
-    
-    this.setState({...this.state, editing: true, cancelling: true, actionButtonColor: "red", actionButtonType: "question"});
+    this.setState(this.state.merge({
+      editing: true,
+      cancelling: true,
+      actionButtonColor: "red",
+      actionButtonType: "question"
+    }));
 
     let res = await wx.showModal({
       title: '提示',
@@ -59,11 +73,20 @@ class TableRow extends Component {
     });
 
     if (res.confirm) {
-      this.setState({...this.state, editing: false, cancelling: false});
-      console.log('用户点击确定')
+      this.setState(this.state.merge({
+        cols: this.props.row.cols,
+        editing: false,
+        cancelling: false
+      }));
+      console.log('用户点击确定');
     } else {
-      this.setState({...this.state, editing: true, cancelling: false, actionButtonColor: "green", actionButtonType: "check-circle"});
-      console.log('用户点击取消')
+      this.setState(this.state.merge({
+        editing: true,
+        cancelling: false,
+        actionButtonColor: "green",
+        actionButtonType: "check-circle"
+      }));
+      console.log('用户点击取消');
     }
   }
   

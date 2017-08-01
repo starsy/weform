@@ -1,3 +1,8 @@
 <view class="table-rows">
     <list key="rows" name="table-row"/>
+    <view class="tr bg-h white">
+        <view class="td">
+            <text class="fa fa-lg fa-plus" catchtap="handleAddRow"/>
+        </view>
+    </view>
 </view>
