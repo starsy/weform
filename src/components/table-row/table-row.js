@@ -35,7 +35,7 @@ class TableRow extends Component {
   
   handleLongTap(event) {
     log.info("handleLongTap", event);
-    this.setState({...this.state, editing: true, actionButtonColor: "green", actionButtonType: "success"});
+    this.setState({...this.state, editing: true, actionButtonColor: "green", actionButtonType: "check-circle"});
   }
 
   handleEditDone(event) {
@@ -51,7 +51,7 @@ class TableRow extends Component {
   async handleEditCancel(event) {
     log.info("handleEditCancel", event);
     
-    this.setState({...this.state, editing: true, cancelling: true, actionButtonColor: "red", actionButtonType: "cancel"});
+    this.setState({...this.state, editing: true, cancelling: true, actionButtonColor: "red", actionButtonType: "question"});
 
     let res = await wx.showModal({
       title: '提示',
@@ -62,7 +62,7 @@ class TableRow extends Component {
       this.setState({...this.state, editing: false, cancelling: false});
       console.log('用户点击确定')
     } else {
-      this.setState({...this.state, editing: true, cancelling: false, actionButtonColor: "green", actionButtonType: "success"});
+      this.setState({...this.state, editing: true, cancelling: false, actionButtonColor: "green", actionButtonType: "check-circle"});
       console.log('用户点击取消')
     }
   }
