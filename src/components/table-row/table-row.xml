@@ -6,19 +6,20 @@
         <view class="th">{{item.v}}</view>
     </block>
 </view>
-<view class="table-row tr {{props.odd ? 'bg-g' : 'bg-w'}}" catchlongtap="handleEdit" wx:else>
+<view class="table-row tr {{state.editing? 'editing' : (props.odd ? 'bg-g' : 'bg-w')}} " catchlongtap="handleEdit" wx:else>
     <view class="td" wx:if="{{state.editing}}">
-        <text class="fa fa-lg fa-{{state.actionButtonType}} {{state.actionButtonColor}}"  
+        <text class="fa fa-lg fa-{{state.actionButtonType}} {{state.actionButtonColor}} overflow-wrap"  
               catchtap="handleEditDone" catchlongtap="handleEditCancel"/>
     </view>
     <view class="td" wx:else>
         <text class="fa fa-lg fa-pencil grey" catchtap="handleEdit" />
     </view>
     <block wx:for="{{state.cols}}" wx:key="_id" wx:for-index="i">
-        <view class="td" wx:if="{{state.editing}}">
-            <input value="{{item.v}}" data-index="{{i}}" data-id="{{item._id}}" confirm-type="done" bindinput="handleInput"/>
+        <view class="td overflow-wrap" wx:if="{{state.editing}}">
+            <textarea class="textarea" auto-height value="{{item.v}}" data-index="{{i}}" data-id="{{item._id}}" 
+                      confirm-type="done" bindinput="handleInput"/>
         </view>
-        <view class="td" wx:else>
+        <view class="td overflow-wrap" wx:else>
             {{item.v}}
         </view>
     </block>

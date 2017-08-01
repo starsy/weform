@@ -34,7 +34,7 @@ class TableRow extends Component {
   doNothing(event) {}
   
   handleEdit(event) {
-    log.info("handleLongTap", event);
+    log.info("handleEdit", event);
     this.setState(this.state.merge({
       editing: true, 
       actionButtonColor: "green", 

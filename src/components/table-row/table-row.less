@@ -3,30 +3,34 @@
   font-size: @font-size-medium;
 }
 
+.editing {
+  outline: 1px solid rgba(16, 174, 255, 0.25);
+  .bg-light-yellow;
+}
+
 .tr {
   display: flex;
   width: 100%;
   justify-content: center;
-  height: 3rem;
+  min-height: 3rem;
+  max-height: fit-content;
   align-items: center;
 }
 
 .td {
-  width: 40%;
+  width: 60%;
   justify-content: center;
   text-align: center;
 }
 
-.bg-w {
-  .bc_white
+.textarea {
+  text-align: left;
 }
 
-.bg-g {
-  .bc_light_blue
-}
-
-.bg-h {
-  .bc_blue
+.overflow-wrap {
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .th {
@@ -59,31 +63,52 @@
   color: #C9C9C9;
 }
 .white{
-  color: snow;
+  color: #FFFFFF;
 }
 
 .strong{
   font-weight: bold;
 }
 
-.bc_white{
-  background-color: snow;
+.bg-w {
+  .bg-white
 }
-.bc_green{
+
+.bg-g {
+  .bg-light-blue
+}
+
+.bg-h {
+  .bg-blue
+}
+
+.bg-light-yellow {
+  background-color: #FFFFE0;
+}
+
+.bg-white{
+  background-color: #FFFFFF;
+}
+.bg-green{
   background-color: #09BB07;
 }
-.bc_red{
+.bg-red{
   background-color: #F76260;
 }
-.bc_blue{
+.bg-blue{
   background-color: #10AEFF;
 }
-.bc_light_blue{
+.bg-light-blue{
   background-color: #AEFF;
 }
-.bc_yellow{
+.bg-yellow{
   background-color: #FFBE00;
 }
-.bc_gray{
+.bg-gray{
   background-color: #C9C9C9;
 }
+
+.bg-grey{
+  .bg-gray;
+}
+
