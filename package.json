@@ -12,7 +12,7 @@
     "labrador"
   ],
   "dependencies": {
-    "al-request": "^0.1.3",
+    "al-request": "github:starsy/al-request",
     "al-ui": "^0.1.1",
     "assert": "^1.4.1",
     "babel-core": "^6.22.1",
