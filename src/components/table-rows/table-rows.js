@@ -1,5 +1,5 @@
 import { Component, PropTypes } from 'labrador-immutable';
-import immutable from 'seamless-immutable';
+import Immutable from 'seamless-immutable';
 import TableRow from '../table-row/table-row';
 import loglevel from 'loglevel';
 
@@ -9,6 +9,7 @@ const { object, array } = PropTypes;
 
 class TableRows extends Component {
   static propTypes = {
+    dimension: object,
     rows: array,
     callbacks: object,
   };
@@ -19,22 +20,24 @@ class TableRows extends Component {
   };
 
   constructor(props) {
-    log.info("props: ", props);
+    log.info("constructor props: ", props);
     super(props);
-    this.state = immutable({});
+    this.state = Immutable({rows: props.rows});
   }
 
   children() {
     let i = 0;
+    log.info("this.state.rows", this.state.rows);
     return {
-      rows: this.props.rows.map((row) => ({
+      rows: this.state.rows.map((row) => ({
         component: TableRow,
         key: i++,
         props: {
           header: false,
           odd: (i % 2 !== 0),
-          empty: false,
-          row: row,
+          width: this.props.dimension.width,
+          newRow: row.newRow,
+          cols: row.cols,
           callbacks: this.props.callbacks,
         }
       }))
@@ -43,6 +46,9 @@ class TableRows extends Component {
   
   handleAddRow(event) {
     log.info("handleAddRow", event);
+    let i = 0;
+    let newState = this.state.set('rows', this.state.rows.concat([{newRow: true}]));
+    this.setState(newState);
   }
 
 }

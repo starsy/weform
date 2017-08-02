@@ -3,36 +3,48 @@ import Immutable from 'seamless-immutable';
 import loglevel from 'loglevel';
 
 let log = loglevel.getLogger('table-row');
-const { string, bool, object, func } = PropTypes;
+const { string, array, bool, object, func } = PropTypes;
 
 class TableRow extends Component {
   static propTypes = {
     header: bool,
     odd: bool,
-    empty: bool,
-    row: object,
+    newRow: bool,
+    cols: array,
     editing: bool,
     cancelling: bool,
+    callbacks: object,
   };
 
   static defaultProps = {
     header: false,
     odd: false,
-    empty: true,
-    row: null,
+    newRow: true,
+    cols: array,
     editing: false,
     cancelling: false,
+    callbacks: {}
   };
 
   constructor(props) {
-    log.info("props: ", props);
+    log.info("constructor props: ", props);
     super(props);
-    this.state = Immutable({cols: props.row.cols});
+    
+    if (!props.newRow) {
+      this.state = Immutable({cols: props.cols});  
+    } else {
+      this.state = Immutable({
+        cols: Array(props.width).fill({v: ''}),
+        editing: true,
+        cancelling: false,
+        actionButtonColor: "green",
+        actionButtonType: "check-circle"
+      });
+    }
+    
     log.info("constructor state:", this.state);
   }
 
-  doNothing(event) {}
-  
   handleEdit(event) {
     log.info("handleEdit", event);
     this.setState(this.state.merge({
@@ -50,12 +62,12 @@ class TableRow extends Component {
     this.setState(this.state.merge({editing: false}));
     this.props = this.props.setIn(['row', 'cols'], this.state.cols);
     log.info("handleEditDone: (props)", this.props);
+
+    log.info("handleEditDone: (this)", this);
     
-    wx.showToast({
-      title: '保存成功',
-      icon: 'success',
-      duration: 1000
-    });
+    if (this.state.newRow) {
+      this.props.callbacks.createRow(this.state.cols);
+    }
   }
 
   async handleEditCancel(event) {
@@ -74,7 +86,7 @@ class TableRow extends Component {
 
     if (res.confirm) {
       this.setState(this.state.merge({
-        cols: this.props.row.cols,
+        cols: this.props.cols,
         editing: false,
         cancelling: false
       }));

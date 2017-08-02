@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'labrador-immutable';
+import wx, {Component, PropTypes} from 'labrador-immutable';
 import immutable from 'seamless-immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'labrador-redux';
@@ -16,7 +16,6 @@ class Form extends Component {
     login: object,
     table: object,
     loadForm: func,
-    createRow: func,
   };
 
   static defaultProps = {
@@ -83,7 +82,6 @@ class Form extends Component {
         props: {
           table: this.props.table,
           createRow: this.createRow,
-          
         }
       }
     };
@@ -105,12 +103,15 @@ class Form extends Component {
     
   }
 
-  createRow(row, at_index) {
-    this.props.createRow({
-      form_id: this.props.table._id,
+  createRow(row) {
+    log.error("in page/form createRow", row);
+    log.error("in page/form createRow, this", wx.currentPages);
+    // figure out myself
+    let self = wx.currentPages[wx.currentPages.length - 1].data;
+    self.props.createRow({
+      form_id: self.props.table._id,
       row,
-      at_index,
-      session: this.props.login.thirdSession
+      session: self.props.login.thirdSession
     });
   }
   

@@ -73,7 +73,7 @@ async function check3rdSession() {
   if (!thirdSession) {
     await login3rdSession();
   } else {
-    let res = await request.get('check_3rd_session?s=' + thirdSession);
+    let {data: res} = await request.get('check_3rd_session?s=' + thirdSession);
     log.info("status: ", res);
 
     if (res) {
@@ -93,7 +93,7 @@ async function get3rdSessionFromServer(userInfo, code) {
   log.info("Get 3rd session from server");
   log.info("userInfo: ", userInfo, "code: ", code);
 
-  let res = await request.post("login?code=" + code, userInfo);
+  let {data: res} = await request.post("login?code=" + code, userInfo);
   if (res) {
     log.info("Success Login Server Response: ", res);
     return res.third_session;

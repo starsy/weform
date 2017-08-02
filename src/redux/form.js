@@ -1,6 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
 import immutable from 'seamless-immutable';
-import request from 'al-request';
 import loglevel from 'loglevel';
 
 let log = loglevel.getLogger('form-redux');
@@ -59,6 +58,12 @@ export default handleActions({
   CREATE_ROW_SUCCESS: (state, {payload}) => {
     let newState = state.setIn(['table', 'data', 'rows'], state.table.data.rows.concat([payload.row]));
     log.info("in handleAction [CREATE_ROW_SUCCESS]", newState);
+
+    wx.showToast({
+      title: '保存成功',
+      icon: 'success',
+      duration: 1000
+    });
     return newState;
   },
   

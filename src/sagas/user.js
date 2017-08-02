@@ -8,7 +8,7 @@ export default function* userSaga() {
   try {
     let res = yield wx.login();
     let data = yield wx.getUserInfo();
-    let user = yield request.post('api/login', {
+    let {data: user} = yield request.post('api/login', {
       code: res.code,
       ...data
     });

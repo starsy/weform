@@ -24,7 +24,7 @@ class Table extends Component {
   };
 
   constructor(props) {
-    log.info("props: ", props);
+    log.info("constructor props: ", props);
     super(props);
     this.state = immutable({});
   }
@@ -43,12 +43,13 @@ class Table extends Component {
         component: TableRow,
         props: {
           header: true,
-          row: {cols: this.props.table.metadata.fields.map((f) => ({v: f.name}))}
+          cols: this.props.table.metadata.fields.map((f) => ({v: f.name}))
         }
       },
       tableRows: {
         component: TableRows,
         props: {
+          dimension: this.props.table.metadata.dimension,
           rows: this.props.table.data.rows.filter((row) => (row && row.cols && row.cols.length > 0)),
           callbacks: {
             createRow: this.props.createRow,
