@@ -5,15 +5,17 @@ import loglevel from 'loglevel';
 
 let log = loglevel.getLogger('table-rows');
 
-const { array } = PropTypes;
+const { object, array } = PropTypes;
 
 class TableRows extends Component {
   static propTypes = {
-    rows: array
+    rows: array,
+    callbacks: object,
   };
 
   static defaultProps = {
-    rows: []
+    rows: [],
+    callbacks: {}
   };
 
   constructor(props) {
@@ -33,6 +35,7 @@ class TableRows extends Component {
           odd: (i % 2 !== 0),
           empty: false,
           row: row,
+          callbacks: this.props.callbacks,
         }
       }))
     };

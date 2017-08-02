@@ -6,15 +6,21 @@ import loglevel from 'loglevel';
 
 let log = loglevel.getLogger('table');
 
-const { object } = PropTypes;
+const { object, func } = PropTypes;
 
 class Table extends Component {
   static propTypes = {
-    table: object
+    table: object,
+    createRow: func,
+    updateRow: func,
+    deleteRow: func,
+    createColumn: func,
+    removeColumn: func,
+    renameColumn: func,
+    refreshTable: func,
   };
 
   static defaultProps = {
-    table: null
   };
 
   constructor(props) {
@@ -43,7 +49,12 @@ class Table extends Component {
       tableRows: {
         component: TableRows,
         props: {
-          rows: this.props.table.data.rows.filter((row) => (row && row.cols && row.cols.length > 0))
+          rows: this.props.table.data.rows.filter((row) => (row && row.cols && row.cols.length > 0)),
+          callbacks: {
+            createRow: this.props.createRow,
+            updateRow: this.props.updateRow,
+            deleteRow: this.props.deleteRow,
+          }
         }
       }
     };

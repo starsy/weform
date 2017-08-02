@@ -1,0 +1,8 @@
+<view class="table-header-row tr bg-w">
+    <view class="th">
+        <text class="fa fa-flag"/>
+    </view>
+    <block wx:for="{{state.cols}}" wx:key="_id">
+        <view class="th">{{item.v}}</view>
+    </block>
+</view>

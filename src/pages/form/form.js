@@ -15,10 +15,12 @@ class Form extends Component {
   static propTypes = {
     login: object,
     table: object,
-    loadForm: func
+    loadForm: func,
+    createRow: func,
   };
 
   static defaultProps = {
+    /*
     table: {
       metadata: {
         title: "Test Form",
@@ -28,7 +30,11 @@ class Form extends Component {
           {name: "F3"},
           {name: "F4"},
           {name: "F5"},
-        ]
+        ],
+        dimension: {
+          height: 3,
+          width: 5,
+        }
       },
       data: {
         rows: [
@@ -62,6 +68,7 @@ class Form extends Component {
         ]
       }
     }
+    */
   };
 
   constructor(props) {
@@ -74,7 +81,9 @@ class Form extends Component {
       table: {
         component: Table,
         props: {
-          table: this.props.table
+          table: this.props.table,
+          createRow: this.createRow,
+          
         }
       }
     };
@@ -96,17 +105,38 @@ class Form extends Component {
     
   }
 
-  // onReady() {
-  // }
-
-  // onShow() {
-  // }
-
-  // onHide() {
-  // }
-
-  // onUnload() {
-  // }
+  createRow(row, at_index) {
+    this.props.createRow({
+      form_id: this.props.table._id,
+      row,
+      at_index,
+      session: this.props.login.thirdSession
+    });
+  }
+  
+  updateRow() {
+    
+  }
+  
+  deleteRow() {
+    
+  }
+  
+  createColumn() {
+    
+  }
+  
+  removeColumn() {
+    
+  }
+  
+  renameColumn() {
+    
+  }
+  
+  refreshTable() {
+    
+  }
 
 }
 
@@ -122,6 +152,7 @@ const mapDispatchToProps = (dispatch) => {
   log.info("in map dispatch to props: ");
   return bindActionCreators({
     loadForm: FormActions.load,
+    createRow: FormActions.createRow,
   }, dispatch);
 };
 

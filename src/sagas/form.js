@@ -6,7 +6,7 @@ import loglevel from 'loglevel';
 
 const log = loglevel.getLogger('formSaga');
 
-export default function* formSaga(action) {
+export function* load(action) {
   try {
     log.info("action", action);
 
@@ -23,6 +23,10 @@ export default function* formSaga(action) {
   } finally {
     wx.hideLoading();
   }
+}
+
+export function* createRow(action) {
+  
 }
 
 async function getTable(id, s) {
