@@ -76,14 +76,13 @@ class Form extends Component {
   }
 
   children() {
-    let self = this;
     return {
       table: {
         component: Table,
         props: {
           table: this.props.table,
-          // keep "this" via closure
-          createRow: function(row) { self.createRow(row) },
+          // bind "this" to createRow
+          createRow: this.createRow.bind(this),
         }
       }
     };
@@ -109,11 +108,11 @@ class Form extends Component {
     log.error("in page/form createRow", row);
     log.error("in page/form createRow, this", wx.currentPages);
     // figure out myself
-    let self = wx.currentPages[wx.currentPages.length - 1].data;
-    self.props.createRow({
-      form_id: self.props.table._id,
+    //let self = wx.currentPages[wx.currentPages.length - 1].data;
+    this.props.createRow({
+      form_id: this.props.table._id,
       row,
-      session: self.props.login.thirdSession
+      session: this.props.login.thirdSession
     });
   }
   
