@@ -76,12 +76,14 @@ class Form extends Component {
   }
 
   children() {
+    let self = this;
     return {
       table: {
         component: Table,
         props: {
           table: this.props.table,
-          createRow: this.createRow,
+          // keep "this" via closure
+          createRow: function(row) { self.createRow(row) },
         }
       }
     };
