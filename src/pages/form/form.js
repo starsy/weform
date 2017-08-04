@@ -106,7 +106,7 @@ class Form extends Component {
 
   createRow(row) {
     log.error("in page/form createRow", row);
-    log.error("in page/form createRow, this", wx.currentPages);
+    log.error("in page/form createRow, this", this);
     // figure out myself
     //let self = wx.currentPages[wx.currentPages.length - 1].data;
     this.props.createRow({
