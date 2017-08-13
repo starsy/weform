@@ -38,12 +38,12 @@ export const INITIAL_STATE = immutable({
 export default handleActions({
   LOAD: (state, {payload}) => {
     log.info("in handleAction [LOAD]", payload);
-    return state.merge({loading: true})
+    return state.merge({loading: true});
   },
   
   LOAD_SUCCESS: (state, {payload}) => {
     log.info("in handleAction [LOAD_SUCCESS]", payload);
-    return state.merge({table: payload.table, loading: false})
+    return state.merge({table: payload.table, loading: false});
   },
   
   CREATE: (state, {payload}) =>
@@ -52,18 +52,23 @@ export default handleActions({
   FAIL: (state, {payload}) =>
     state.merge({fetching: false, err: payload.err}),
   
-  CREATE_ROW: (state, {payload}) =>
-    state.merge({fetching: false, err: null}),
+  CREATE_ROW: (state, {payload}) => {
+    log.info("--------> in n handleAction [CREATE_ROW], payload:", payload);
+    return state;
+  },
   
   CREATE_ROW_SUCCESS: (state, {payload}) => {
-    let newState = state.setIn(['table', 'data', 'rows'], state.table.data.rows.concat([payload.row]));
-    log.info("in handleAction [CREATE_ROW_SUCCESS]", newState);
+    log.info("in handleAction [CREATE_ROW_SUCCESS]，payload:", payload, "state: ", state);
 
+    let newRows = state.table.data.rows.concat([payload.row]);
+    let newState = state.setIn(['table', 'data', 'rows'], newRows);
+    
     wx.showToast({
       title: '保存成功',
       icon: 'success',
       duration: 1000
     });
+    
     return newState;
   },
   

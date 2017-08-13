@@ -37,6 +37,7 @@ class TableRow extends Component {
         cols: Array(props.width).fill({v: ''}),
         editing: true,
         cancelling: false,
+        newRow: true,
         actionButtonColor: "green",
         actionButtonType: "check-circle"
       });
@@ -66,6 +67,7 @@ class TableRow extends Component {
     log.info("handleEditDone: (this)", this);
     
     if (this.state.newRow) {
+      log.info("Callback to create Row:", this.props.callbacks);
       this.props.callbacks.createRow(this.state.cols);
     }
   }

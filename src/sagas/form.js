@@ -29,11 +29,13 @@ export function* createRow(action) {
 
   log.info("Create Row: action ", action);
   
-  let res, statusCode = null;
+  let _res, statusCode = null;
   try {
     log.info("create row for table:" + form_id);
+    yield wx.showLoading({title: "保存中"});
     let {data: res, statusCode} = yield request.post('form/' + form_id + "/row", row, {s: session});
     
+    _res = res;
     if (statusCode !== 200) {
       log.error("Error when create row for table: ", res, statusCode);
       return null;
@@ -41,16 +43,13 @@ export function* createRow(action) {
   } catch (e) {
     log.error("Error when create row for table: ", e);
     return null;
+  } finally {
+    wx.hideLoading();
   }
-  log.info("create row response:", res);
-
-  yield wx.showToast({
-    title: '保存成功',
-    icon: 'success',
-    duration: 1000
-  });
   
-  yield put(formActions.createRowSuccess());
+  log.info("create row response:", _res);
+
+  yield put(formActions.createRowSuccess(_res));
 }
 
 async function getTable(id, s) {

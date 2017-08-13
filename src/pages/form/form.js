@@ -1,5 +1,5 @@
 import wx, {Component, PropTypes} from 'labrador-immutable';
-import immutable from 'seamless-immutable';
+import Immutable from 'seamless-immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'labrador-redux';
 import * as FormActions from '../../redux/form';
@@ -16,10 +16,11 @@ class Form extends Component {
     login: object,
     table: object,
     loadForm: func,
+    createForm: func,
   };
-
+  
+  /*
   static defaultProps = {
-    /*
     table: {
       metadata: {
         title: "Test Form",
@@ -67,22 +68,25 @@ class Form extends Component {
         ]
       }
     }
-    */
   };
+      */
 
   constructor(props) {
     super(props);
-    this.state = immutable({});
+    this.state = Immutable({});
   }
 
   children() {
+    //let self = this;
     return {
       table: {
         component: Table,
         props: {
           table: this.props.table,
           // bind "this" to createRow
-          createRow: this.createRow.bind(this),
+          //createRow: this.createRow.bind(this),
+          //createRow: function(row) { log.error("page/createRow"); self.createRow(row) },
+          createRow: this.createRow,
         }
       }
     };
@@ -108,11 +112,11 @@ class Form extends Component {
     log.error("in page/form createRow", row);
     log.error("in page/form createRow, this", this);
     // figure out myself
-    //let self = wx.currentPages[wx.currentPages.length - 1].data;
-    this.props.createRow({
-      form_id: this.props.table._id,
+    let self = wx.currentPages[wx.currentPages.length - 1].data;
+    self.props.createRow({
+      form_id: self.props.table._id,
       row,
-      session: this.props.login.thirdSession
+      session: self.props.login.thirdSession
     });
   }
   
@@ -143,11 +147,14 @@ class Form extends Component {
 }
 
 const mapStateToProps = (state) => {
-  log.info("in map state to props: ", state);
-  return {
+  let props = {
     login: state.login,
     table: state.form.table,
   };
+
+  log.info("in map state to props: state: ", state, "props: ", props);
+  
+  return props;
 };
 
 const mapDispatchToProps = (dispatch) => {
